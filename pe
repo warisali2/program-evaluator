@@ -106,13 +106,18 @@ $program < $input > /tmp/$programOutput
 # comparing output files and displaying output
 
 lines=$(wc -l $input)
-red='\033[0;31m'
+lines=${lines%%" $input"}
+
+#log "lines = ${lines}s"
+#log "lines sequence = $(echo {0..$lines})"
+
+red='\033[37;41m'
 brown='\033[0;33m'
-green='\033[0;32m'
+green='\033[37;42m'
 
 echo -e "\n${brown}Input\tOutput\tProgram Output"
 
-for n in {0..$lines};
+for (( n = 0; n < $lines; ++n));
 do
 	IFS='' read -r i <&3
 	IFS='' read -r o <&4
@@ -126,6 +131,8 @@ do
 		color=$red
 	fi
 
-	echo -e "${color}${i}\t${o}\t${po}"
+	echo -e "${color}${i}\t${o}\t${po}\033[0m"
 
 done 3<$input 4<$output 5</tmp/$programOutput
+
+echo -e "\033[0m"
