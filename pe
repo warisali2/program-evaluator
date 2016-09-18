@@ -117,7 +117,6 @@ green='\033[37;42m'
 
 echo -e "\n${brown}Input\tOutput\tProgram Output"
 
-#for n in {0..$lines};
 for (( n = 0; n < $lines; ++n));
 do
 	IFS='' read -r i <&3
