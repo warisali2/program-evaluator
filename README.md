@@ -11,5 +11,6 @@ While practicing for Programming Competitions, Have you ever been in a situation
 
 ```
 pe main.cpp input.txt output.txt
+```
 ![example-image-01.png](program-evaluator/example-image-01.png)
 
