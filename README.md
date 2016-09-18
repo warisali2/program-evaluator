@@ -24,12 +24,20 @@ pe myprogram mycode/input mycode/output
 ## Installation
 
 ### For Linux
-1. Download **pe** file.
+1. Download **pe** script.
 2. Copy the file to `\bin` or `\usr\bin`.
 3. Change the Permission to make it executable.
     1. `cd` to the directory where **pe** is located.
     2. Use `chmod u+x pe` to make it executable.
 
 ### For Windows
-1. For Windows 10, install [Linux Bash Shell](http://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/). For earlier versions of Windows, install [Cygwin](https://www.cygwin.com/)
-2. Follow the same instructions as for linux.
+1. For Windows 10, install [Linux Bash Shell](http://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/). For earlier versions of Windows, install [Cygwin](https://www.cygwin.com/).
+2. Download **pe** script.
+3. Change the Permission to make it executable.
+    1. `cd` to the directory where **pe** is located.
+    2. Use `chmod u+x pe` to make it executable.
+
+### Features
+- [x] Highlights Correct and Incorrect output with Green and Red colors respectively.
+- [ ] Show incorrect output only.
+- [ ] Randomly generate input using user-defined templates.
