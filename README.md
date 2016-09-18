@@ -37,7 +37,7 @@ pe myprogram mycode/input mycode/output
     1. `cd` to the directory where **pe** is located.
     2. Use `chmod u+x pe` to make it executable.
 
-### Features
+## Features
 - [x] Highlights Correct and Incorrect output with Green and Red colors respectively.
 - [ ] Show incorrect output only.
 - [ ] Randomly generate input using user-defined templates.
