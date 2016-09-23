@@ -14,12 +14,12 @@ For help, use: `pe -h`
 ```
 pe main.exe input.txt output.txt
 ```
-![example-image-01.png](https://github.com/warisali2/program-evaluator/blob/readme-edits/example-image-01.png)
+![example-image-01.png](example-image-01.png)
 
 ```
 pe myprogram mycode/input mycode/output
 ```
-![example-image-02.png](https://github.com/warisali2/program-evaluator/blob/readme-edits/example-image-02.png)
+![example-image-02.png](example-image-02.png)
 
 ## Installation
 
