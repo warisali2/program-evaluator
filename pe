@@ -8,114 +8,136 @@
 
 #-------------------------------------------------------------------------------------------------------------------------
 
-#Functions
+# Colors
+red='\033[37;41m'
+brown='\033[37;43m'
+green='\033[37;42m'
 
+
+# Variables
+program=
+input=
+output=
+
+# Creating tmp directory in $HOME if it does not exists
+[[ -d $HOME/tmp ]] || mkdir $HOME/tmp
+
+# Creating tmp file in $HOME/tmp directory
+programOutput=$(mktemp $HOME/tmp/pe.$$.XXXXXXXXXXXXXXXXXX)
+
+
+#Functions
 usage () {
 	cat <<- eof
 	
 	Program Name: pe
 	Title: Program Evaluator
-	Usage: pe PROGRAM INPUT_FILE OUTPUT_FILE
+	Usage: pe [ -i ] PROGRAM INPUT_FILE OUTPUT_FILE
 
 	Purpose: Evalute the program for given input and compare the results with the required output. This script is written
-	keeping Compettive Programming Competitions in mind.
+	keeping Competitive Programming Competitions in mind.
 
-	Note: use -h for help.
-	
+	Options:
+
+	-i		Show incorrect results only
+	-h		Show help
+
 	eof
 }
 
 # debug function
-
 log () {
 	echo "Debug: $1"
 }
 
-# validating correct number of positional parameters
+# validating correct number of positional parameters and assigning values
 
-#log "Number of parameters = $#"
+##log "Number of parameters = $#"
 
 if [[ "$1" == "-h" ]]; then
 	usage
 	exit 0;
 fi
 
-if [[ $# != 3 ]]; then
+if [[ "$#" == "4" ]]; then
+
+	if [[ "$1" == "-i" ]]; then
+		incorrectOnly=1
+	else
+		usage 1>&2
+		exit 1
+	fi
+
+	program=$2
+	input=$3
+	output=$4
+elif [[ "$#" == "3" ]]; then
+	
+	program=$1
+	input=$2
+	output=$3
+
+else
 	usage 1>&2
 	exit 1
 fi
 
-# Variables
-program=$1
-input=$2
-output=$3
-programOutput=temp-output.txt
-
-#log "Program = $program"
-#log "input = $input"
-#log "output = $output"
+##log "Program = $program"
+##log "input = $input"
+##log "output = $output"
 
 # validating variables and their respective permissions
 
-#log "Validating program variable"
+##log "Validating program variable"
 
 if [[ ! -x $program ]]; then
 	echo "pe: Cannot execute '$program' or file does not exists" 1>&2
 	exit 2 
 fi
 
-#log "program variable validated"
-#log "validating input variable"
+##log "program variable validated"
+##log "validating input variable"
 
 if [[ ! -r $input ]]; then
 	echo "pe: Cannot read '$input' or file does not exists" 1>&2
 	exit 3
 fi
 
-#log "input variable validated"
-#log "validating output variable"
+##log "input variable validated"
+##log "validating output variable"
 
 if [[ ! -r $output ]]; then
 	echo "pe: Cannot read '$output' or file does not exists" 1>&2
 	exit 4
 fi
 
-#log "output variable validated"
+##log "output variable validated"
+##log "validating tmp file"
 
-# Creating temp-output.txt file in temp directory
-
-#log "creating tmp output file"
-
-touch "/tmp/$programOutput"
-
-if [[ ! -w /tmp/$programOutput ]]; then
-	#log "cant create tmp output file"
+if [[ ! -w $programOutput ]]; then
+	##log "cant create tmp output file"
 	exit -1
 fi
 
-#log "tmp file created successfully"
+##log "tmp file validated"
 
 # Executing the PROGRAM while redirecting input and output to respective files
 
-#log "executing the program with redirected io"
+##log "executing the program with redirected io"
 
-$program < $input > /tmp/$programOutput
+$program < $input > $programOutput
 
-#log "program executed successfully"
+##log "program executed successfully"
 
 # comparing output files and displaying output
 
 lines=$(wc -l $input)
 lines=${lines%%" $input"}
 
-#log "lines = ${lines}s"
-#log "lines sequence = $(echo {0..$lines})"
+##log "lines = ${lines}s"
+##log "lines sequence = $(echo {0..$lines})"
 
-red='\033[37;41m'
-brown='\033[0;33m'
-green='\033[37;42m'
-
-echo -e "\n${brown}Input\tOutput\tProgram Output"
+echo -e "\n${brown}Input\tOutput\tProgram Output\033[0m"
 
 for (( n = 0; n < $lines; ++n));
 do
@@ -127,16 +149,19 @@ do
 
 	if [[ "${o}" == "${po}" ]]; then
 		color=$green
+
+		if [[ $incorrectOnly == 1 ]]; then
+			continue
+		fi
 	else
 		color=$red
 	fi
 
-	echo -e "${color}${i}\t${o}\t${po}\033[0m"
+	printf "${color}%5s\t%6s\t%14s\033[0m\n" $i $o $po
 
-done 3<$input 4<$output 5</tmp/$programOutput
-
-# deleting temp output file
-
-rm /tmp/$programOutput
+done 3<$input 4<$output 5<$programOutput
 
 echo -e "\033[0m"
+
+# Removing temp file
+rm $progamOutput
