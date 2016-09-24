@@ -39,6 +39,6 @@ pe myprogram mycode/input mycode/output
 
 ## Features
 - [x] Highlights Correct and Incorrect output with Green and Red colors respectively.
-- [ ] Show incorrect output only.
+- [x] Show incorrect output only.
 - [ ] Randomly generate input using user-defined templates.
 - [ ] Group Input and Output.
