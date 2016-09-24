@@ -52,8 +52,6 @@ log () {
 
 # validating correct number of positional parameters and assigning values
 
-##log "Number of parameters = $#"
-
 if [[ "$1" == "-h" ]]; then
 	usage
 	exit 0;
@@ -82,60 +80,36 @@ else
 	exit 1
 fi
 
-##log "Program = $program"
-##log "input = $input"
-##log "output = $output"
-
 # validating variables and their respective permissions
-
-##log "Validating program variable"
 
 if [[ ! -x $program ]]; then
 	echo "pe: Cannot execute '$program' or file does not exists" 1>&2
 	exit 2 
 fi
 
-##log "program variable validated"
-##log "validating input variable"
-
 if [[ ! -r $input ]]; then
 	echo "pe: Cannot read '$input' or file does not exists" 1>&2
 	exit 3
 fi
-
-##log "input variable validated"
-##log "validating output variable"
 
 if [[ ! -r $output ]]; then
 	echo "pe: Cannot read '$output' or file does not exists" 1>&2
 	exit 4
 fi
 
-##log "output variable validated"
-##log "validating tmp file"
-
 if [[ ! -w $programOutput ]]; then
 	##log "cant create tmp output file"
 	exit -1
 fi
 
-##log "tmp file validated"
-
 # Executing the PROGRAM while redirecting input and output to respective files
 
-##log "executing the program with redirected io"
-
 $program < $input > $programOutput
-
-##log "program executed successfully"
 
 # comparing output files and displaying output
 
 lines=$(wc -l $input)
 lines=${lines%%" $input"}
-
-##log "lines = ${lines}s"
-##log "lines sequence = $(echo {0..$lines})"
 
 echo -e "\n${brown}Input\tOutput\tProgram Output\033[0m"
 
